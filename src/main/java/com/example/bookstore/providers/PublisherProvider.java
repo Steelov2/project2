@@ -1,4 +1,4 @@
-package com.example.bookstore.interfaces;
+package com.example.bookstore.providers;
 
 import com.example.bookstore.entities.Publisher;
 

@@ -1,22 +1,50 @@
 package com.example.bookstore.entities;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-
+@Entity
+@Table
 public class Author {
-
+    @Id
+    @SequenceGenerator(
+            name="author_sequence",
+            sequenceName="author_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "author_sequence"
+    )
     private long id;
     private String surname;
     private String name;
     private String patronymic;
     private LocalDate dateOfBirth;
+    @OneToMany
     private List<Book> authorsBooksList;
 
     public Author() {
     }
 
-    public Author(long id, String surname, String name,
-                  String patronymic, LocalDate dateOfBirth, List<Book> authorsBooksList) {
+    public Author(String surname,
+                  String name,
+                  String patronymic,
+                  LocalDate dateOfBirth,
+                  List<Book> authorsBooksList) {
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.dateOfBirth = dateOfBirth;
+        this.authorsBooksList = authorsBooksList;
+    }
+
+    public Author(long id,
+                  String surname,
+                  String name,
+                  String patronymic,
+                  LocalDate dateOfBirth,
+                  List<Book> authorsBooksList) {
         this.id = id;
         this.surname = surname;
         this.name = name;

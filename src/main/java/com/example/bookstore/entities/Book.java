@@ -1,11 +1,24 @@
 package com.example.bookstore.entities;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-
+@Entity
+@Table
 public class Book {
+    @Id
+    @SequenceGenerator(
+            name="book_sequence",
+            sequenceName="book_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "book_sequence"
+    )
     private long id;
     private int price;
+    @OneToMany
     private List<Author> authorList;
     private String publisher;
     private String name;
@@ -15,8 +28,27 @@ public class Book {
 
     public Book() {}
 
-    public Book(long id, int price, List<Author> authorList,
-                String publisher, String name, int numberOfPages, LocalDate yearOfIssue) {
+    public Book(int price,
+                List<Author> authorList,
+                String publisher,
+                String name,
+                int numberOfPages,
+                LocalDate yearOfIssue) {
+        this.price = price;
+        this.authorList = authorList;
+        this.publisher = publisher;
+        this.name = name;
+        this.numberOfPages = numberOfPages;
+        this.yearOfIssue = yearOfIssue;
+    }
+
+    public Book(long id,
+                int price,
+                List<Author> authorList,
+                String publisher,
+                String name,
+                int numberOfPages,
+                LocalDate yearOfIssue) {
         this.id = id;
         this.price = price;
         this.authorList = authorList;

@@ -1,8 +1,8 @@
-package com.example.bookstore.implementations;
+package com.example.bookstore.providers.implementations;
 
 
 import com.example.bookstore.entities.Publisher;
-import com.example.bookstore.interfaces.PublisherProvider;
+import com.example.bookstore.providers.PublisherProvider;
 
 import java.util.ArrayList;
 import java.util.List;

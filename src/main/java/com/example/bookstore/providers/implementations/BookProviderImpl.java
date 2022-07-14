@@ -1,7 +1,7 @@
-package com.example.bookstore.implementations;
+package com.example.bookstore.providers.implementations;
 
 import com.example.bookstore.entities.Book;
-import com.example.bookstore.interfaces.BookProvider;
+import com.example.bookstore.providers.BookProvider;
 
 import java.util.ArrayList;
 import java.util.List;

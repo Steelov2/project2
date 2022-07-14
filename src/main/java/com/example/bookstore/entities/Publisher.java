@@ -1,16 +1,37 @@
 package com.example.bookstore.entities;
 
+import javax.persistence.*;
 import java.util.List;
-
+@Entity
+@Table
 public class Publisher {
+    @Id
+    @SequenceGenerator(
+            name="publisher_sequence",
+            sequenceName="publisher_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "publisher_sequence"
+    )
     private long id;
     private String name;
+    @OneToMany
     private List<Book> publishedBooksList;
 
     public Publisher() {
     }
 
-    public Publisher(long id, String name, List<Book> publishedBooksList) {
+    public Publisher(String name,
+                     List<Book> publishedBooksList) {
+        this.name = name;
+        this.publishedBooksList = publishedBooksList;
+    }
+
+    public Publisher(long id,
+                     String name,
+                     List<Book> publishedBooksList) {
         this.id = id;
         this.name = name;
         this.publishedBooksList = publishedBooksList;
