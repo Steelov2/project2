@@ -1,5 +1,6 @@
 package com.example.bookstore.services.implementations;
 
+import com.example.bookstore.DTOs.BookDTO;
 import com.example.bookstore.Repos.BookRepo;
 import com.example.bookstore.entities.Book;
 import com.example.bookstore.services.BookService;

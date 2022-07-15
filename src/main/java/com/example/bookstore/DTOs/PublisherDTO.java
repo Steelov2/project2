@@ -1,11 +1,23 @@
 package com.example.bookstore.DTOs;
 
+import com.example.bookstore.entities.Book;
+
 import java.util.List;
 
 public class PublisherDTO {
+    private long id;
+
     private String name;
 
-    private List<BookDTO> publishedBooks;
+    private List<Book> publishedBooks;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -15,11 +27,11 @@ public class PublisherDTO {
         this.name = name;
     }
 
-    public List<BookDTO> getPublishedBooks() {
+    public List<Book> getPublishedBooks() {
         return publishedBooks;
     }
 
-    public void setPublishedBooks(List<BookDTO> publishedBooks) {
+    public void setPublishedBooks(List<Book> publishedBooks) {
         this.publishedBooks = publishedBooks;
     }
 }

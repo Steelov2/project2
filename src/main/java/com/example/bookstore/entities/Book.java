@@ -1,5 +1,7 @@
 package com.example.bookstore.entities;
 
+import com.example.bookstore.DTOs.BookDTO;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -24,6 +26,18 @@ public class Book {
     private String name;
     private int numberOfPages;
     private LocalDate yearOfIssue;
+//    public Book convertBookToDto() {
+//        Book book =new Book();
+//        book.setName(book.getName());
+//        book.setAuthorList(book.getAuthorList());
+//        book.setId(book.getId());
+//        book.setPrice(book.getPrice());
+//        book.setPublisher(book.getPublisher());
+//        book.setNumberOfPages(book.getNumberOfPages());
+//        book.setYearOfIssue(book.getYearOfIssue());
+//
+//        return book;
+//    }
 
 
     public Book() {}

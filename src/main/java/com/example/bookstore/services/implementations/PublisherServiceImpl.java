@@ -5,10 +5,12 @@ import com.example.bookstore.entities.Book;
 import com.example.bookstore.entities.Publisher;
 import com.example.bookstore.services.PublisherService;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.stereotype.Service;
 
+import javax.websocket.server.ServerEndpoint;
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class PublisherServiceImpl implements PublisherService {
     private final PublisherRepo publisherRepo;
 

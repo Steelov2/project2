@@ -1,5 +1,6 @@
 package com.example.bookstore.services;
 
+import com.example.bookstore.DTOs.BookDTO;
 import com.example.bookstore.entities.Book;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface BookService {
     public void deleteByID(long id);
     public Book create(Book book);
     void update(Book book, long id);
+
+
 }
