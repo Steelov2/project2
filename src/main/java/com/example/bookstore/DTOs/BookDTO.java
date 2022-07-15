@@ -2,11 +2,13 @@ package com.example.bookstore.DTOs;
 
 
 import com.example.bookstore.entities.Author;
+import com.example.bookstore.entities.Book;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class BookDTO {
+
+public class BookDTO{
     private long id;
     private int price;
     private List<Author> authorList;

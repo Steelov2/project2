@@ -3,7 +3,7 @@ package com.example.bookstore.entities;
 import javax.persistence.*;
 import java.util.List;
 @Entity
-@Table
+@Table(name = "PUBLISHER")
 public class Publisher {
     @Id
     @SequenceGenerator(
@@ -17,7 +17,7 @@ public class Publisher {
     )
     private long id;
     private String name;
-    @OneToMany
+    @OneToMany(mappedBy = "publisher")
     private List<Book> publishedBooksList;
 
     public Publisher() {

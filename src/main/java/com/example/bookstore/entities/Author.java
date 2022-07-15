@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 @Entity
-@Table
+@Table(name="AUTHOR")
 public class Author {
     @Id
     @SequenceGenerator(
@@ -21,7 +21,11 @@ public class Author {
     private String name;
     private String patronymic;
     private LocalDate dateOfBirth;
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "authors_book",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> authorsBooksList;
 
     public Author() {

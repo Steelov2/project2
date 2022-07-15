@@ -5,6 +5,7 @@ import com.example.bookstore.entities.Author;
 import com.example.bookstore.services.AuthorService;
 import org.springframework.data.crossstore.ChangeSetPersister;
 
+import java.util.List;
 import java.util.Optional;
 
 public class AuthorServiceImpl implements AuthorService {
@@ -12,6 +13,11 @@ public class AuthorServiceImpl implements AuthorService {
 
     public AuthorServiceImpl(AuthorRepo authorRepo) {
         this.authorRepo = authorRepo;
+    }
+
+    @Override
+    public List<Author> getAll() {
+        return authorRepo.findAll();
     }
 
     @Override
