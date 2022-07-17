@@ -25,6 +25,10 @@ public class AuthorServiceImpl implements AuthorService {
     public Optional<Author> getByID(long id) {
         return authorRepo.findById(id);
     }
+    @Override
+    public List<Author> getByNameContaining(String name) {
+       return authorRepo.findByNameContaining(name);   }
+
 
     @Override
     public void deleteByID(long id) {
@@ -52,4 +56,7 @@ public class AuthorServiceImpl implements AuthorService {
             e.printStackTrace();
         }
     }
+
+
+
 }

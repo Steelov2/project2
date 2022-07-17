@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/authors")
+@RequestMapping
 public class AuthorController {
     @Autowired
     private AuthorService authorService;
@@ -39,6 +39,14 @@ public class AuthorController {
     {
         Optional<Author> authors=authorService.getByID(id);
         return authors.map(this::convertAuthorToDto);
+    }
+    @GetMapping("/author/{authorName}")
+    private List<AuthorDTO> getAuthorByName(@PathVariable("authorName") String name){
+        List<Author> authors=authorService.getByNameContaining(name);
+        return authors
+                .stream()
+                .map(this::convertAuthorToDto)
+                .collect(Collectors.toList());
     }
     @DeleteMapping("/author/{authorID}")
     private void deleteAuthorById(@PathVariable("authorID") long id)

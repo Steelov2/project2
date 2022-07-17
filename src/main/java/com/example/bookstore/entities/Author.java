@@ -17,9 +17,14 @@ public class Author {
             generator = "author_sequence"
     )
     private long id;
+    @Column(name = "surName")
     private String surname;
+    @Column(name = "name")
+
     private String name;
+    @Column(name = "patronymic")
     private String patronymic;
+    @Column(name = "dateOfBirth")
     private LocalDate dateOfBirth;
     @ManyToMany
     @JoinTable(
