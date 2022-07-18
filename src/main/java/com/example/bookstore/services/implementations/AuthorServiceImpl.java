@@ -27,7 +27,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
     @Override
     public List<Author> getByNameContaining(String name) {
-       return authorRepo.findByNameContaining(name);   }
+       return authorRepo.findByNameIsContainingIgnoreCase(name);   }
 
 
     @Override
@@ -42,7 +42,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void update(Author author,long id) {
-        Author existingAuthor= null;
+        Author existingAuthor;
         try {
             existingAuthor = authorRepo.findById(author.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
             existingAuthor.setName(author.getName());

@@ -40,14 +40,15 @@ public class AuthorController {
         Optional<Author> authors=authorService.getByID(id);
         return authors.map(this::convertAuthorToDto);
     }
-    @GetMapping("/author/{authorName}")
-    private List<AuthorDTO> getAuthorByName(@PathVariable("authorName") String name){
+    @GetMapping("/author/name/{authorName}")
+    private List<AuthorDTO> getAuthorByName( @PathVariable("authorName")  String name){
         List<Author> authors=authorService.getByNameContaining(name);
         return authors
                 .stream()
                 .map(this::convertAuthorToDto)
                 .collect(Collectors.toList());
     }
+
     @DeleteMapping("/author/{authorID}")
     private void deleteAuthorById(@PathVariable("authorID") long id)
     {

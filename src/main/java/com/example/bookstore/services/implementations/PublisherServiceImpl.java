@@ -40,7 +40,7 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public void update(Publisher publisher) {
-        Publisher existingPublisher= null;
+        Publisher existingPublisher;
         try {
             existingPublisher = publisherRepo.findById(publisher.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
             existingPublisher.setName(publisher.getName());
@@ -51,5 +51,10 @@ public class PublisherServiceImpl implements PublisherService {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public List<Publisher> getByNameContaining(String name) {
+        return publisherRepo.findByNameIsContainingIgnoreCase(name);
     }
 }

@@ -41,6 +41,14 @@ public class PublisherController {
         Optional<Publisher> publishers=publisherService.getByID(id);
         return publishers.map(this::convertPublisherToDto);
     }
+    @GetMapping("/publisher/name/{bookName}")
+    private List<PublisherDTO> getAuthorByName(@PathVariable("bookName") String name){
+        List<Publisher> publishers=publisherService.getByNameContaining(name);
+        return publishers
+                .stream()
+                .map(this::convertPublisherToDto)
+                .collect(Collectors.toList());
+    }
     @DeleteMapping("/publisher/{publisherID}")
     private void deletePublisherById(@PathVariable("publisherID") long id)
     {

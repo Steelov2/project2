@@ -2,6 +2,7 @@ package com.example.bookstore.services.implementations;
 
 import com.example.bookstore.DTOs.BookDTO;
 import com.example.bookstore.Repos.BookRepo;
+import com.example.bookstore.entities.Author;
 import com.example.bookstore.entities.Book;
 import com.example.bookstore.services.BookService;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -39,7 +40,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void update(Book book, long id) {
-        Book existingBook= null;
+        Book existingBook;
         try {
             existingBook = bookRepo.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
             existingBook.setName(book.getName());
@@ -54,6 +55,11 @@ public class BookServiceImpl implements BookService {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public List<Book> getByNameContaining(String name) {
+        return bookRepo.findByNameIsContainingIgnoreCase(name);
     }
 
 
