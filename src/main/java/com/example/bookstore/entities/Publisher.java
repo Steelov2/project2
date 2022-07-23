@@ -1,5 +1,7 @@
 package com.example.bookstore.entities;
 
+import com.example.bookstore.DTOs.PublisherDTO;
+
 import javax.persistence.*;
 import java.util.List;
 @Entity
@@ -27,6 +29,10 @@ public class Publisher {
                      List<Book> publishedBooksList) {
         this.name = name;
         this.publishedBooksList = publishedBooksList;
+    }
+    public Publisher( long id, String name) {
+        this.name = name;
+        this.id=id;
     }
 
     public Publisher(long id,
@@ -59,5 +65,13 @@ public class Publisher {
 
     public void setPublishedBooksList(List<Book> publishedBooksList) {
         this.publishedBooksList = publishedBooksList;
+    }
+
+    public PublisherDTO convertPublisherToDto() {
+        PublisherDTO publisherDTO = new PublisherDTO();
+        publisherDTO.setName(this.getName());
+        publisherDTO.setId(this.getId());
+        publisherDTO.setPublishedBooks(this.getPublishedBooksList());
+        return publisherDTO;
     }
 }

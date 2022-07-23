@@ -1,5 +1,7 @@
 package com.example.bookstore.DTOs;
 
+import com.example.bookstore.entities.Genre;
+
 public class GenreDTO {
     private long id;
     private String name;
@@ -25,5 +27,11 @@ public class GenreDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+    public Genre convertToEntity( ) {
+        Genre genre = new Genre();
+        genre.setName(this.getName());
+        genre.setId(this.getId());
+        return genre;
     }
 }

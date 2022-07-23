@@ -30,21 +30,21 @@ public class PublisherController {
     public List<PublisherDTO> getAll(){
         List<Publisher> publishers=publisherService.getAll();
         return publishers.stream()
-                .map(this::convertPublisherToDto)
+                .map(Publisher::convertPublisherToDto)
                 .collect(Collectors.toList());
     }
     @GetMapping("/publisher/{publisherID}")
     private Optional<PublisherDTO> getPublisherById(@PathVariable("publisherID") long id)
     {
         Optional<Publisher> publishers=publisherService.getByID(id);
-        return publishers.map(this::convertPublisherToDto);
+        return publishers.map(Publisher::convertPublisherToDto);
     }
     @GetMapping("/publisher/name/{bookName}")
     private List<PublisherDTO> getAuthorByName(@PathVariable("bookName") String name){
         List<Publisher> publishers=publisherService.getByNameContaining(name);
         return publishers
                 .stream()
-                .map(this::convertPublisherToDto)
+                .map(Publisher::convertPublisherToDto)
                 .collect(Collectors.toList());
     }
     @DeleteMapping("/publisher/{publisherID}")
@@ -55,35 +55,23 @@ public class PublisherController {
     @PostMapping("/publisher")
     private PublisherDTO savePublisher(@RequestBody PublisherDTO publisherDTO)
     {
-        Publisher publisher = convertToEntity(publisherDTO);
+        Publisher publisher = publisherDTO.convertToEntity();
         Publisher publisherCreated = publisherService.create(publisher);
-        return convertPublisherToDto(publisherCreated);
+        return publisherCreated.convertPublisherToDto();
     }
     @PutMapping("/publisher/{publisherID}")
     private void updatePublisher(@RequestBody PublisherDTO publisherDTO,@PathVariable("publisherID") long id)    {
         if(!Objects.equals(id, publisherDTO.getId())){
             throw new IllegalArgumentException("IDs don't match");
         }
-        Publisher publisher = convertToEntity(publisherDTO);
+        Publisher publisher = publisherDTO.convertToEntity();
         publisherService.update(publisher,id);
     }
 
 
-    private PublisherDTO convertPublisherToDto(Publisher publisher) {
-        PublisherDTO publisherDTO = modelMapper.map(publisher, PublisherDTO.class);
-        publisherDTO.setName(publisher.getName());
-        publisherDTO.setId(publisher.getId());
-        publisherDTO.setPublishedBooks(publisher.getPublishedBooksList());
-        return publisherDTO;
-    }
 
-    public Publisher convertToEntity(PublisherDTO publisherDTO) {
-        Publisher publisher = new Publisher();
-        publisher.setName(publisherDTO.getName());
-        publisher.setId(publisherDTO.getId());
-        publisher.setPublishedBooksList(publisherDTO.getPublishedBooks());
-        return publisher;
-    }
+
+
 
 
 }

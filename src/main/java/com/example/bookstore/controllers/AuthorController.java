@@ -55,14 +55,14 @@ public class AuthorController {
 
     }
 
-    private GenreDTO convertGenreToDto(Genre genre) {
-        GenreDTO genreDTO = modelMapper.map(genre, GenreDTO.class);
-        genreDTO.setName(genre.getName());
-        genreDTO.setId(genre.getId());
-
-
-        return genreDTO;
-    }
+//    private GenreDTO convertGenreToDto(Genre genre) {
+//        GenreDTO genreDTO = modelMapper.map(genre, GenreDTO.class);
+//        genreDTO.setName(genre.getName());
+//        genreDTO.setId(genre.getId());
+//
+//
+//        return genreDTO;
+//    }
 
 
     @GetMapping("/author/name")

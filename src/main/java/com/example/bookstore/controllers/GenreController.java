@@ -59,7 +59,7 @@ public class GenreController {
     }
     @PostMapping("/genre")
     private GenreDTO saveBook(@RequestBody GenreDTO genreDTO){
-        Genre genre = convertToEntity(genreDTO);
+        Genre genre = genreDTO.convertToEntity();
         Genre genreCreated = genreService.create(genre);
         return genreCreated.convertGenreToDto();
     }
@@ -68,15 +68,10 @@ public class GenreController {
         if(!Objects.equals(id, genreDTO.getId())){
             throw new IllegalArgumentException("IDs don't match");
         }
-        Genre genre = convertToEntity(genreDTO);
+        Genre genre = genreDTO.convertToEntity();
         genreService.update(genre,id);
     }
 
 
-    public Genre convertToEntity(GenreDTO genreDTO) {
-        Genre genre = new Genre();
-        genre.setName(genreDTO.getName());
-        genre.setId(genreDTO.getId());
-        return genre;
-    }
+
 }

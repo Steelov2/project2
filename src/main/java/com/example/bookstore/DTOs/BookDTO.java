@@ -2,6 +2,7 @@ package com.example.bookstore.DTOs;
 
 
 import com.example.bookstore.entities.Author;
+import com.example.bookstore.entities.Book;
 
 
 import java.time.LocalDate;
@@ -12,7 +13,7 @@ public class BookDTO{
     private long id;
     private int price;
     private List<AuthorDTO> authorList;
-    private String publisher;
+    private PublisherDTO publisher;
     private String name;
     private int numberOfPages;
     private LocalDate yearOfIssue;
@@ -51,11 +52,11 @@ public class BookDTO{
         this.authorList = authorList;
     }
 
-    public String getPublisher() {
+    public PublisherDTO getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(String publisher) {
+    public void setPublisher(PublisherDTO publisher) {
         this.publisher = publisher;
     }
 
@@ -82,4 +83,19 @@ public class BookDTO{
     public void setYearOfIssue(LocalDate yearOfIssue) {
         this.yearOfIssue = yearOfIssue;
     }
+
+    public Book convertToEntity() {
+        Book book = new Book();
+        book.setName(this.getName());
+        book.setPublisher(this.getPublisher().convertToEntity());
+        book.setPrice(this.getPrice());
+        book.setYearOfIssue(this.getYearOfIssue());
+        book.setId(this.getId());
+        book.setAuthorList(this.getAuthorList().stream().map(AuthorDTO::convertToEntity).toList());
+        book.setNumberOfPages(this.getNumberOfPages());
+
+        return book;
+    }
+
+
 }

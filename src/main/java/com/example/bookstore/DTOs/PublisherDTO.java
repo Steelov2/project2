@@ -1,6 +1,7 @@
 package com.example.bookstore.DTOs;
 
 import com.example.bookstore.entities.Book;
+import com.example.bookstore.entities.Publisher;
 
 import java.util.List;
 
@@ -33,5 +34,12 @@ public class PublisherDTO {
 
     public void setPublishedBooks(List<Book> publishedBooks) {
         this.publishedBooks = publishedBooks;
+    }
+    public  Publisher convertToEntity( ) {
+        Publisher publisher = new Publisher();
+        publisher.setName(this.getName());
+        publisher.setId(this.getId());
+        publisher.setPublishedBooksList(this.getPublishedBooks());
+        return publisher;
     }
 }

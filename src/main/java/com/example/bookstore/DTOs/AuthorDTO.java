@@ -2,6 +2,7 @@ package com.example.bookstore.DTOs;
 
 
 import com.example.bookstore.entities.Author;
+import com.example.bookstore.entities.Genre;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,6 +14,7 @@ public class AuthorDTO {
     private String patronymic;
     private LocalDate dateOfBirth;
     private List<BookDTO> authorsBooksList;
+    private List<GenreDTO> authorsGenresList;
 
     public List<GenreDTO> getAuthorsGenresList() {
         return authorsGenresList;
@@ -22,7 +24,7 @@ public class AuthorDTO {
         this.authorsGenresList = authorsGenresList;
     }
 
-    private List<GenreDTO> authorsGenresList;
+
 
     public long getId() {
         return id;
@@ -75,6 +77,8 @@ public class AuthorDTO {
 
         return author;
     }
+
+
 //    public List<BookDTO> getAuthorsBooksList() {
 //        return authorsBooksList;
 //    }

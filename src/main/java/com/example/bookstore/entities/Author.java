@@ -30,20 +30,20 @@ public class Author {
     private LocalDate dateOfBirth;
 
 
-  //  @OneToMany
-//    @JoinTable(
-//            name = "author_genre",
-//            joinColumns = @JoinColumn(name = "author_id"),
-//            inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    //private List<Genre> authorsGenresList;
+    @OneToMany
+    @JoinTable(
+            name = "author_genre",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> authorsGenresList;
 
-//    public List<Genre> getAuthorsGenresList() {
-//        return authorsGenresList;
-//    }
-//
-//    public void setAuthorsGenresList(List<Genre> authorsGenresList) {
-//        this.authorsGenresList = authorsGenresList;
-//    }
+    public List<Genre> getAuthorsGenresList() {
+        return authorsGenresList;
+    }
+
+    public void setAuthorsGenresList(List<Genre> authorsGenresList) {
+        this.authorsGenresList = authorsGenresList;
+    }
 
     public Author() {
     }
@@ -51,28 +51,30 @@ public class Author {
     public Author(String surname,
                   String name,
                   String patronymic,
-                  LocalDate dateOfBirth
+                  LocalDate dateOfBirth,
+                  List<Genre> authorsGenresList
                  ) {
         this.surname = surname;
         this.name = name;
         this.patronymic = patronymic;
         this.dateOfBirth = dateOfBirth;
 //        this.authorsBooksList = authorsBooksList;
-//        this.authorsGenresList = authorsGenresList;
+        this.authorsGenresList = authorsGenresList;
     }
 
     public Author(long id,
                   String surname,
                   String name,
                   String patronymic,
-                  LocalDate dateOfBirth) {
+                  LocalDate dateOfBirth,
+                  List<Genre> authorsGenresList) {
         this.id = id;
         this.surname = surname;
         this.name = name;
         this.patronymic = patronymic;
         this.dateOfBirth = dateOfBirth;
 //        this.authorsBooksList = authorsBooksList;
-//        this.authorsGenresList = authorsGenresList;
+        this.authorsGenresList = authorsGenresList;
     }
 
     public long getId() {
@@ -122,9 +124,11 @@ public class Author {
         authorDTO.setSurname(this.getSurname());
         authorDTO.setId(this.getId());
         authorDTO.setPatronymic(this.getPatronymic());
-        //authorDTO.setPatronymic(this.getPatronymic());
-        // authorDTO.setAuthorsBooksList(author.getAuthorsBooksList());
+        authorDTO.setPatronymic(this.getPatronymic());
+       // authorDTO.setAuthorsGenresList(this.getAuthorsGenresList().stream().map(Genre::convertGenreToDto).toList());
+//         authorDTO.setAuthorsBooksList(author.getAuthorsBooksList());
         authorDTO.setDateOfBirth(this.getDateOfBirth());
+        //bookDto.setGenreList(book.getBooksGenresList().stream().map(Genre::convertGenreToDto).toList());
 
         return authorDTO;
     }

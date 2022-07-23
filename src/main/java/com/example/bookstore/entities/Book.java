@@ -27,7 +27,13 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "author_id"))
 
     private List<Author> authorList;
-    private String publisher;
+
+    @ManyToOne
+    @JoinTable(
+            name = "publishers_book",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "publisher_id"))
+    private Publisher publisher;
     private String name;
     private int numberOfPages;
     private LocalDate yearOfIssue;
@@ -50,7 +56,7 @@ public class Book {
 
     public Book(int price,
                 List<Author> authorList,
-                String publisher,
+                Publisher publisher,
                 String name,
                 int numberOfPages,
                 LocalDate yearOfIssue) {
@@ -65,7 +71,7 @@ public class Book {
     public Book(long id,
                 int price,
                 List<Author> authorList,
-                String publisher,
+                Publisher publisher,
                 String name,
                 int numberOfPages,
                 LocalDate yearOfIssue) {
@@ -102,11 +108,11 @@ public class Book {
         this.authorList = authorList;
     }
 
-    public String getPublisher() {
+    public Publisher getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(String publisher) {
+    public void setPublisher( Publisher publisher) {
         this.publisher = publisher;
     }
 
@@ -132,5 +138,18 @@ public class Book {
 
     public void setYearOfIssue(LocalDate yearOfIssue) {
         this.yearOfIssue = yearOfIssue;
+    }
+
+    public BookDTO convertBookToDto() {
+        BookDTO bookDto = new BookDTO();
+        bookDto.setName(this.getName());
+        bookDto.setAuthorList(this.getAuthorList().stream().map(Author::convertAuthorToDto).toList());
+        bookDto.setId(this.getId());
+        bookDto.setPrice(this.getPrice());
+        bookDto.setPublisher(this.getPublisher().convertPublisherToDto());
+        bookDto.setNumberOfPages(this.getNumberOfPages());
+        bookDto.setYearOfIssue(this.getYearOfIssue());
+        bookDto.setGenreList(this.getBooksGenresList().stream().map(Genre::convertGenreToDto).toList());
+        return bookDto;
     }
 }
