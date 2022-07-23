@@ -19,10 +19,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/publishers")
 public class PublisherController {
-    @Autowired
     private ModelMapper modelMapper;
-    @Autowired
-    private PublisherService publisherService;
+    private final PublisherService publisherService;
     @Autowired
     public PublisherController(PublisherService publisherService){
         this.publisherService= publisherService;
@@ -67,7 +65,7 @@ public class PublisherController {
             throw new IllegalArgumentException("IDs don't match");
         }
         Publisher publisher = convertToEntity(publisherDTO);
-        publisherService.update(publisher);
+        publisherService.update(publisher,id);
     }
 
 

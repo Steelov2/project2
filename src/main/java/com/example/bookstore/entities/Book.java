@@ -20,26 +20,32 @@ public class Book {
     )
     private long id;
     private int price;
-    @ManyToMany(mappedBy = "authorsBooksList")
+    @ManyToMany
+    @JoinTable(
+            name = "authors_book",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
+
     private List<Author> authorList;
     private String publisher;
     private String name;
     private int numberOfPages;
     private LocalDate yearOfIssue;
-//    public Book convertBookToDto() {
-//        Book book =new Book();
-//        book.setName(book.getName());
-//        book.setAuthorList(book.getAuthorList());
-//        book.setId(book.getId());
-//        book.setPrice(book.getPrice());
-//        book.setPublisher(book.getPublisher());
-//        book.setNumberOfPages(book.getNumberOfPages());
-//        book.setYearOfIssue(book.getYearOfIssue());
-//
-//        return book;
-//    }
 
+    public List<Genre> getBooksGenresList() {
+        return booksGenresList;
+    }
 
+    public void setBooksGenresList(List<Genre> booksGenresList) {
+        this.booksGenresList = booksGenresList;
+    }
+
+    @OneToMany
+    @JoinTable(
+            name = "book_genre",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> booksGenresList;
     public Book() {}
 
     public Book(int price,

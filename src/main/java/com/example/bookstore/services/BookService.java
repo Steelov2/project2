@@ -14,6 +14,7 @@ public interface BookService {
      Book create(Book book);
     void update(Book book, long id);
      List<Book> getByNameContaining(String name);
+     List<Book> getByGenreName(String genreName);
 
 
 

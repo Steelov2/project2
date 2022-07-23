@@ -39,10 +39,10 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public void update(Publisher publisher) {
+    public void update(Publisher publisher, long id) {
         Publisher existingPublisher;
         try {
-            existingPublisher = publisherRepo.findById(publisher.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
+            existingPublisher = publisherRepo.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
             existingPublisher.setName(publisher.getName());
             existingPublisher.setId(publisher.getId());
             existingPublisher.setPublishedBooksList(publisher.getPublishedBooksList());

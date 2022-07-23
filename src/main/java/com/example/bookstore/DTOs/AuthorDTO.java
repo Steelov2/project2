@@ -1,7 +1,7 @@
 package com.example.bookstore.DTOs;
 
 
-import com.example.bookstore.entities.Book;
+import com.example.bookstore.entities.Author;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,7 +12,17 @@ public class AuthorDTO {
     private String name;
     private String patronymic;
     private LocalDate dateOfBirth;
-    private List<Book> authorsBooksList;
+    private List<BookDTO> authorsBooksList;
+
+    public List<GenreDTO> getAuthorsGenresList() {
+        return authorsGenresList;
+    }
+
+    public void setAuthorsGenresList(List<GenreDTO> authorsGenresList) {
+        this.authorsGenresList = authorsGenresList;
+    }
+
+    private List<GenreDTO> authorsGenresList;
 
     public long getId() {
         return id;
@@ -54,11 +64,22 @@ public class AuthorDTO {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public List<Book> getAuthorsBooksList() {
-        return authorsBooksList;
-    }
+    public Author convertToEntity() {
+        Author author = new Author();
+        author.setName(this.getName());
+        author.setId(this.getId());
+        //author.setAuthorsBooksList(authorDTO.getAuthorsBooksList());
+        author.setPatronymic(this.getPatronymic());
+        author.setSurname(this.getSurname());
+        author.setDateOfBirth(this.getDateOfBirth());
 
-    public void setAuthorsBooksList(List<Book> authorsBooksList) {
-        this.authorsBooksList = authorsBooksList;
+        return author;
     }
+//    public List<BookDTO> getAuthorsBooksList() {
+//        return authorsBooksList;
+//    }
+//
+//    public void setAuthorsBooksList(List<BookDTO> authorsBooksList) {
+//        this.authorsBooksList = authorsBooksList;
+//    }
 }

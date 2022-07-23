@@ -2,7 +2,6 @@ package com.example.bookstore.DTOs;
 
 
 import com.example.bookstore.entities.Author;
-import com.example.bookstore.entities.Book;
 
 
 import java.time.LocalDate;
@@ -12,11 +11,21 @@ import java.util.List;
 public class BookDTO{
     private long id;
     private int price;
-    private List<Author> authorList;
+    private List<AuthorDTO> authorList;
     private String publisher;
     private String name;
     private int numberOfPages;
     private LocalDate yearOfIssue;
+
+    private List<GenreDTO> genreList;
+
+    public List<GenreDTO> getGenreList() {
+        return genreList;
+    }
+
+    public void setGenreList(List<GenreDTO> genreList) {
+        this.genreList = genreList;
+    }
 
     public long getId() {
         return id;
@@ -34,11 +43,11 @@ public class BookDTO{
         this.price = price;
     }
 
-    public List<Author> getAuthorList() {
+    public List<AuthorDTO> getAuthorList() {
         return authorList;
     }
 
-    public void setAuthorList(List<Author> authorList) {
+    public void setAuthorList(List<AuthorDTO> authorList) {
         this.authorList = authorList;
     }
 
