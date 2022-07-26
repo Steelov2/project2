@@ -29,10 +29,10 @@ public class Book {
     private List<Author> authorList;
 
     @ManyToOne
-    @JoinTable(
-            name = "publishers_book",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "publisher_id"))
+    @JoinColumn(
+            name = "publishers_book")
+//            joinColumns = @JoinColumn(name = "book_id"),
+//            inverseJoinColumns = @JoinColumn(name = "publisher_id"))
     private Publisher publisher;
     private String name;
     private int numberOfPages;

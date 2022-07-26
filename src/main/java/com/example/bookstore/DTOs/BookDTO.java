@@ -91,6 +91,7 @@ public class BookDTO{
         book.setPrice(this.getPrice());
         book.setYearOfIssue(this.getYearOfIssue());
         book.setId(this.getId());
+        book.setBooksGenresList(this.getGenreList().stream().map(GenreDTO::convertToEntity).toList());
         book.setAuthorList(this.getAuthorList().stream().map(AuthorDTO::convertToEntity).toList());
         book.setNumberOfPages(this.getNumberOfPages());
 
