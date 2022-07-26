@@ -35,14 +35,14 @@ public class AuthorController {
     public List<AuthorDTO> getAll(){
         List<Author> authors=authorService.getAll();
         return authors.stream()
-                .map(Author::convertAuthorToDto)
+                .map(item->item.convertAuthorToDto(true))
                 .collect(Collectors.toList());
     }
     @GetMapping("/author/{authorID}")
     private Optional<AuthorDTO> getAuthorById(@PathVariable("authorID") long id)
     {
         Optional<Author> authors=authorService.getByID(id);
-        return authors.map(Author::convertAuthorToDto);
+        return authors.map(item->item.convertAuthorToDto(true));
     }
     @GetMapping("/author/genre/{genreName}")
     private Stream<AuthorDTO> getAuthorByGenreName(@PathVariable("genreName") String name)
@@ -51,7 +51,7 @@ public class AuthorController {
         bookService.getByGenreName(name)
                 .stream()
                 .forEach(book -> authorList.addAll(book.getAuthorList()));
-        return authorList.stream().map(Author::convertAuthorToDto);
+        return authorList.stream().map(item->item.convertAuthorToDto(true));
 
     }
 
@@ -72,7 +72,7 @@ public class AuthorController {
         List<Author> authors=authorService.getByNameSurnamePatronymicContaining(name, surname, patronymic);
         return authors
                 .stream()
-                .map(Author::convertAuthorToDto)
+                .map(item->item.convertAuthorToDto(true))
                 .collect(Collectors.toList());
     }
 
@@ -85,7 +85,7 @@ public class AuthorController {
     private AuthorDTO saveBook(@RequestBody AuthorDTO authorDTO){
         Author author = authorDTO.convertToEntity();
         Author authorCreated = authorService.create(author);
-        return authorCreated.convertAuthorToDto();
+        return authorCreated.convertAuthorToDto(true);
     }
     @PutMapping("/author/{authorID}")
     private void updateBook(@RequestBody AuthorDTO authorDTO,@PathVariable("authorID") long id) throws Throwable {

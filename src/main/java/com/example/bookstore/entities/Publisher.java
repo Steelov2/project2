@@ -4,13 +4,14 @@ import com.example.bookstore.DTOs.PublisherDTO;
 
 import javax.persistence.*;
 import java.util.List;
+
 @Entity
 @Table(name = "PUBLISHER")
 public class Publisher {
     @Id
     @SequenceGenerator(
-            name="publisher_sequence",
-            sequenceName="publisher_sequence",
+            name = "publisher_sequence",
+            sequenceName = "publisher_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
@@ -30,9 +31,10 @@ public class Publisher {
         this.name = name;
         this.publishedBooksList = publishedBooksList;
     }
-    public Publisher( long id, String name) {
+
+    public Publisher(long id, String name) {
         this.name = name;
-        this.id=id;
+        this.id = id;
     }
 
     public Publisher(long id,
@@ -67,11 +69,12 @@ public class Publisher {
         this.publishedBooksList = publishedBooksList;
     }
 
-    public PublisherDTO convertPublisherToDto() {
+    public PublisherDTO convertPublisherToDto(boolean needPublishedBooks) {
         PublisherDTO publisherDTO = new PublisherDTO();
         publisherDTO.setName(this.getName());
         publisherDTO.setId(this.getId());
-        publisherDTO.setPublishedBooks(this.getPublishedBooksList());
+        if (needPublishedBooks)
+            publisherDTO.setPublishedBooks(this.getPublishedBooksList());
         return publisherDTO;
     }
 }

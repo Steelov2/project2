@@ -6,13 +6,14 @@ import com.example.bookstore.DTOs.BookDTO;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+
 @Entity
-@Table(name="author")
+@Table(name = "author")
 public class Author {
     @Id
     @SequenceGenerator(
-            name="author_sequence",
-            sequenceName="author_sequence",
+            name = "author_sequence",
+            sequenceName = "author_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
@@ -24,7 +25,7 @@ public class Author {
     private String surname;
     @Column(name = "name")
     private String name;
-    @Column(name="patronymic")
+    @Column(name = "patronymic")
     private String patronymic;
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
@@ -34,7 +35,6 @@ public class Author {
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> authorsBooksList;
-
 
 
     @OneToMany
@@ -53,7 +53,7 @@ public class Author {
                   LocalDate dateOfBirth,
                   List<Book> authorsBooksList,
                   List<Genre> authorsGenresList
-                 ) {
+    ) {
         this.surname = surname;
         this.name = name;
         this.patronymic = patronymic;
@@ -117,6 +117,7 @@ public class Author {
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
     public List<Genre> getAuthorsGenresList() {
         return authorsGenresList;
     }
@@ -134,14 +135,15 @@ public class Author {
         this.authorsBooksList = authorsBooksList;
     }
 
-    public AuthorDTO convertAuthorToDto() {
+    public AuthorDTO convertAuthorToDto(boolean authorsBookList) {
         AuthorDTO authorDTO = new AuthorDTO();
         authorDTO.setName(this.getName());
         authorDTO.setSurname(this.getSurname());
         authorDTO.setId(this.getId());
         authorDTO.setPatronymic(this.getPatronymic());
         authorDTO.setAuthorsGenresList(this.getAuthorsGenresList().stream().map(Genre::convertGenreToDto).toList());
-        authorDTO.setAuthorsBooksList(this.getAuthorsBooksList().stream().map(Book::convertBookToDto).toList());
+        if (authorsBookList)
+            authorDTO.setAuthorsBooksList(this.getAuthorsBooksList().stream().map(Book::convertBookToDto).toList());
         authorDTO.setDateOfBirth(this.getDateOfBirth());
 
         return authorDTO;

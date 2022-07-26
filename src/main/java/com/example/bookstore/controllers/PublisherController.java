@@ -30,21 +30,21 @@ public class PublisherController {
     public List<PublisherDTO> getAll(){
         List<Publisher> publishers=publisherService.getAll();
         return publishers.stream()
-                .map(Publisher::convertPublisherToDto)
+                .map(item->item.convertPublisherToDto(true))
                 .collect(Collectors.toList());
     }
     @GetMapping("/publisher/{publisherID}")
     private Optional<PublisherDTO> getPublisherById(@PathVariable("publisherID") long id)
     {
         Optional<Publisher> publishers=publisherService.getByID(id);
-        return publishers.map(Publisher::convertPublisherToDto);
+        return publishers.map(item->item.convertPublisherToDto(true));
     }
     @GetMapping("/publisher/name/{bookName}")
     private List<PublisherDTO> getAuthorByName(@PathVariable("bookName") String name){
         List<Publisher> publishers=publisherService.getByNameContaining(name);
         return publishers
                 .stream()
-                .map(Publisher::convertPublisherToDto)
+                .map(item->item.convertPublisherToDto(true))
                 .collect(Collectors.toList());
     }
     @DeleteMapping("/publisher/{publisherID}")
@@ -57,7 +57,7 @@ public class PublisherController {
     {
         Publisher publisher = publisherDTO.convertToEntity();
         Publisher publisherCreated = publisherService.create(publisher);
-        return publisherCreated.convertPublisherToDto();
+        return publisherCreated.convertPublisherToDto(true);
     }
     @PutMapping("/publisher/{publisherID}")
     private void updatePublisher(@RequestBody PublisherDTO publisherDTO,@PathVariable("publisherID") long id)    {

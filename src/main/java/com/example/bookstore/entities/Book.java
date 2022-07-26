@@ -30,7 +30,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(
-            name = "publishers_book")
+            name = "publisher_id")
 //            joinColumns = @JoinColumn(name = "book_id"),
 //            inverseJoinColumns = @JoinColumn(name = "publisher_id"))
     private Publisher publisher;
@@ -143,10 +143,10 @@ public class Book {
     public BookDTO convertBookToDto() {
         BookDTO bookDto = new BookDTO();
         bookDto.setName(this.getName());
-        bookDto.setAuthorList(this.getAuthorList().stream().map(Author::convertAuthorToDto).toList());
+        bookDto.setAuthorList(this.getAuthorList().stream().map(item->item.convertAuthorToDto(false)).toList());
         bookDto.setId(this.getId());
         bookDto.setPrice(this.getPrice());
-        bookDto.setPublisher(this.getPublisher().convertPublisherToDto());
+        bookDto.setPublisher(this.getPublisher().convertPublisherToDto(false));
         bookDto.setNumberOfPages(this.getNumberOfPages());
         bookDto.setYearOfIssue(this.getYearOfIssue());
         bookDto.setGenreList(this.getBooksGenresList().stream().map(Genre::convertGenreToDto).toList());
