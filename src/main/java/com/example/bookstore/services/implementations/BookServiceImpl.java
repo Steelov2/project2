@@ -40,7 +40,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void update(Book book, long id) {
-        Book existingBook;
+        Book existingBook= null;
         try {
             existingBook = bookRepo.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
             existingBook.setName(book.getName());
@@ -60,6 +60,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getByNameContaining(String name) {
         return bookRepo.findByNameIsContainingIgnoreCase(name);
+    }
+
+    @Override
+    public List<Book> getByGenreName(String genreName) {
+        return bookRepo.findAllByGenre(genreName);
     }
 
 

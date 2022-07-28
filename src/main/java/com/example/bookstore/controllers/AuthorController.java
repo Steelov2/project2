@@ -1,51 +1,78 @@
 package com.example.bookstore.controllers;
 
 import com.example.bookstore.DTOs.AuthorDTO;
-import com.example.bookstore.DTOs.BookDTO;
+import com.example.bookstore.DTOs.GenreDTO;
 import com.example.bookstore.entities.Author;
 import com.example.bookstore.entities.Book;
+import com.example.bookstore.entities.Genre;
 import com.example.bookstore.services.AuthorService;
 import com.example.bookstore.services.BookService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping
 public class AuthorController {
-    @Autowired
-    private AuthorService authorService;
-    @Autowired
+    private final AuthorService authorService;
+    private final BookService bookService;
     private ModelMapper modelMapper;
     @Autowired
-    public AuthorController(AuthorService authorService) {
+    public AuthorController(AuthorService authorService, BookService bookService) {
         this.authorService = authorService;
+        this.bookService = bookService;
     }
 
     @GetMapping("/author")
     public List<AuthorDTO> getAll(){
         List<Author> authors=authorService.getAll();
         return authors.stream()
-                .map(this::convertAuthorToDto)
+                .map(item->item.convertAuthorToDto(true))
                 .collect(Collectors.toList());
     }
     @GetMapping("/author/{authorID}")
     private Optional<AuthorDTO> getAuthorById(@PathVariable("authorID") long id)
     {
         Optional<Author> authors=authorService.getByID(id);
-        return authors.map(this::convertAuthorToDto);
+        return authors.map(item->item.convertAuthorToDto(true));
     }
-    @GetMapping("/author/name/{authorName}")
-    private List<AuthorDTO> getAuthorByName( @PathVariable("authorName")  String name){
-        List<Author> authors=authorService.getByNameContaining(name);
+    @GetMapping("/author/genre/{genreName}")
+    private Stream<AuthorDTO> getAuthorByGenreName(@PathVariable("genreName") String name)
+    {
+        List<Author> authorList=new ArrayList<>();
+        bookService.getByGenreName(name)
+                .stream()
+                .forEach(book -> authorList.addAll(book.getAuthorList()));
+        return authorList.stream().map(item->item.convertAuthorToDto(true));
+
+    }
+
+//    private GenreDTO convertGenreToDto(Genre genre) {
+//        GenreDTO genreDTO = modelMapper.map(genre, GenreDTO.class);
+//        genreDTO.setName(genre.getName());
+//        genreDTO.setId(genre.getId());
+//
+//
+//        return genreDTO;
+//    }
+
+
+    @GetMapping("/author/name")
+    private List<AuthorDTO> getAuthorByName( @RequestParam String name,
+                                             @RequestParam String surname,
+                                             @RequestParam String patronymic){
+        List<Author> authors=authorService.getByNameSurnamePatronymicContaining(name, surname, patronymic);
         return authors
                 .stream()
-                .map(this::convertAuthorToDto)
+                .map(item->item.convertAuthorToDto(true))
                 .collect(Collectors.toList());
     }
 
@@ -56,38 +83,21 @@ public class AuthorController {
     }
     @PostMapping("/author")
     private AuthorDTO saveBook(@RequestBody AuthorDTO authorDTO){
-        Author author = convertToEntity(authorDTO);
+        Author author = authorDTO.convertToEntity();
         Author authorCreated = authorService.create(author);
-        return convertAuthorToDto(authorCreated);
+        return authorCreated.convertAuthorToDto(true);
     }
     @PutMapping("/author/{authorID}")
-    private void updateBook(@RequestBody AuthorDTO authorDTO,@PathVariable("authorID") long id)    {
+    private void updateBook(@RequestBody AuthorDTO authorDTO,@PathVariable("authorID") long id) throws Throwable {
         if(!Objects.equals(id, authorDTO.getId())){
             throw new IllegalArgumentException("IDs don't match");
         }
-        Author author = convertToEntity(authorDTO);
+        Author author =authorDTO.convertToEntity();
         authorService.update(author,id);
     }
 
-    private AuthorDTO convertAuthorToDto(Author author) {
-        AuthorDTO authorDTO = modelMapper.map(author, AuthorDTO.class);
-        authorDTO.setName(author.getName());
-        authorDTO.setSurname(author.getSurname());
-        authorDTO.setId(author.getId());
-        authorDTO.setAuthorsBooksList(author.getAuthorsBooksList());
-        authorDTO.setDateOfBirth(author.getDateOfBirth());
 
-        return authorDTO;
-    }
-    public Author convertToEntity(AuthorDTO authorDTO) {
-        Author author = new Author();
-        author.setName(authorDTO.getName());
-        author.setId(authorDTO.getId());
-        author.setAuthorsBooksList(authorDTO.getAuthorsBooksList());
-        author.setPatronymic(authorDTO.getPatronymic());
-        author.setSurname(authorDTO.getSurname());
-        author.setDateOfBirth(authorDTO.getDateOfBirth());
 
-        return author;
-    }
+
+
 }

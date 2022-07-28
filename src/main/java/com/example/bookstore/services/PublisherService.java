@@ -10,6 +10,6 @@ public interface PublisherService {
      Optional<Publisher> getByID(long id);
      void deleteByID(long id);
      Publisher create(Publisher publisher);
-     void update(Publisher publisher);
+     void update(Publisher publisher, long id);
     List<Publisher> getByNameContaining(String name);
 }

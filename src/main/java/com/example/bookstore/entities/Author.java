@@ -1,15 +1,19 @@
 package com.example.bookstore.entities;
 
+import com.example.bookstore.DTOs.AuthorDTO;
+import com.example.bookstore.DTOs.BookDTO;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+
 @Entity
-@Table(name="AUTHOR")
+@Table(name = "author")
 public class Author {
     @Id
     @SequenceGenerator(
-            name="author_sequence",
-            sequenceName="author_sequence",
+            name = "author_sequence",
+            sequenceName = "author_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
@@ -17,21 +21,28 @@ public class Author {
             generator = "author_sequence"
     )
     private long id;
-    @Column(name = "surName")
+    @Column(name = "surname")
     private String surname;
     @Column(name = "name")
-
     private String name;
     @Column(name = "patronymic")
     private String patronymic;
-    @Column(name = "dateOfBirth")
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
-    @ManyToMany
+    @OneToMany
     @JoinTable(
-            name = "authors_book",
+            name = "author_books",
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> authorsBooksList;
+
+
+    @OneToMany
+    @JoinTable(
+            name = "author_genre",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> authorsGenresList;
 
     public Author() {
     }
@@ -40,12 +51,15 @@ public class Author {
                   String name,
                   String patronymic,
                   LocalDate dateOfBirth,
-                  List<Book> authorsBooksList) {
+                  List<Book> authorsBooksList,
+                  List<Genre> authorsGenresList
+    ) {
         this.surname = surname;
         this.name = name;
         this.patronymic = patronymic;
         this.dateOfBirth = dateOfBirth;
         this.authorsBooksList = authorsBooksList;
+        this.authorsGenresList = authorsGenresList;
     }
 
     public Author(long id,
@@ -53,13 +67,15 @@ public class Author {
                   String name,
                   String patronymic,
                   LocalDate dateOfBirth,
-                  List<Book> authorsBooksList) {
+                  List<Book> authorsBooksList,
+                  List<Genre> authorsGenresList) {
         this.id = id;
         this.surname = surname;
         this.name = name;
         this.patronymic = patronymic;
         this.dateOfBirth = dateOfBirth;
         this.authorsBooksList = authorsBooksList;
+        this.authorsGenresList = authorsGenresList;
     }
 
     public long getId() {
@@ -102,6 +118,15 @@ public class Author {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public List<Genre> getAuthorsGenresList() {
+        return authorsGenresList;
+    }
+
+    public void setAuthorsGenresList(List<Genre> authorsGenresList) {
+        this.authorsGenresList = authorsGenresList;
+    }
+
+
     public List<Book> getAuthorsBooksList() {
         return authorsBooksList;
     }
@@ -109,4 +134,19 @@ public class Author {
     public void setAuthorsBooksList(List<Book> authorsBooksList) {
         this.authorsBooksList = authorsBooksList;
     }
+
+    public AuthorDTO convertAuthorToDto(boolean authorsBookList) {
+        AuthorDTO authorDTO = new AuthorDTO();
+        authorDTO.setName(this.getName());
+        authorDTO.setSurname(this.getSurname());
+        authorDTO.setId(this.getId());
+        authorDTO.setPatronymic(this.getPatronymic());
+        authorDTO.setAuthorsGenresList(this.getAuthorsGenresList().stream().map(Genre::convertGenreToDto).toList());
+        if (authorsBookList)
+            authorDTO.setAuthorsBooksList(this.getAuthorsBooksList().stream().map(Book::convertBookToDto).toList());
+        authorDTO.setDateOfBirth(this.getDateOfBirth());
+
+        return authorDTO;
+    }
+
 }

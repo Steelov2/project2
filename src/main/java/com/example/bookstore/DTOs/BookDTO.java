@@ -12,11 +12,21 @@ import java.util.List;
 public class BookDTO{
     private long id;
     private int price;
-    private List<Author> authorList;
-    private String publisher;
+    private List<AuthorDTO> authorList;
+    private PublisherDTO publisher;
     private String name;
     private int numberOfPages;
     private LocalDate yearOfIssue;
+
+    private List<GenreDTO> genreList;
+
+    public List<GenreDTO> getGenreList() {
+        return genreList;
+    }
+
+    public void setGenreList(List<GenreDTO> genreList) {
+        this.genreList = genreList;
+    }
 
     public long getId() {
         return id;
@@ -34,19 +44,19 @@ public class BookDTO{
         this.price = price;
     }
 
-    public List<Author> getAuthorList() {
+    public List<AuthorDTO> getAuthorList() {
         return authorList;
     }
 
-    public void setAuthorList(List<Author> authorList) {
+    public void setAuthorList(List<AuthorDTO> authorList) {
         this.authorList = authorList;
     }
 
-    public String getPublisher() {
+    public PublisherDTO getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(String publisher) {
+    public void setPublisher(PublisherDTO publisher) {
         this.publisher = publisher;
     }
 
@@ -73,4 +83,20 @@ public class BookDTO{
     public void setYearOfIssue(LocalDate yearOfIssue) {
         this.yearOfIssue = yearOfIssue;
     }
+
+    public Book convertToEntity() {
+        Book book = new Book();
+        book.setName(this.getName());
+        book.setPublisher(this.getPublisher().convertToEntity());
+        book.setPrice(this.getPrice());
+        book.setYearOfIssue(this.getYearOfIssue());
+        book.setId(this.getId());
+        book.setBooksGenresList(this.getGenreList().stream().map(GenreDTO::convertToEntity).toList());
+        book.setAuthorList(this.getAuthorList().stream().map(AuthorDTO::convertToEntity).toList());
+        book.setNumberOfPages(this.getNumberOfPages());
+
+        return book;
+    }
+
+
 }

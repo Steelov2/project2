@@ -20,31 +20,43 @@ public class Book {
     )
     private long id;
     private int price;
-    @ManyToMany(mappedBy = "authorsBooksList")
+    @ManyToMany
+    @JoinTable(
+            name = "authors_book",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
+
     private List<Author> authorList;
-    private String publisher;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "publisher_id")
+//            joinColumns = @JoinColumn(name = "book_id"),
+//            inverseJoinColumns = @JoinColumn(name = "publisher_id"))
+    private Publisher publisher;
     private String name;
     private int numberOfPages;
     private LocalDate yearOfIssue;
-//    public Book convertBookToDto() {
-//        Book book =new Book();
-//        book.setName(book.getName());
-//        book.setAuthorList(book.getAuthorList());
-//        book.setId(book.getId());
-//        book.setPrice(book.getPrice());
-//        book.setPublisher(book.getPublisher());
-//        book.setNumberOfPages(book.getNumberOfPages());
-//        book.setYearOfIssue(book.getYearOfIssue());
-//
-//        return book;
-//    }
 
+    public List<Genre> getBooksGenresList() {
+        return booksGenresList;
+    }
 
+    public void setBooksGenresList(List<Genre> booksGenresList) {
+        this.booksGenresList = booksGenresList;
+    }
+
+    @OneToMany
+    @JoinTable(
+            name = "book_genre",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> booksGenresList;
     public Book() {}
 
     public Book(int price,
                 List<Author> authorList,
-                String publisher,
+                Publisher publisher,
                 String name,
                 int numberOfPages,
                 LocalDate yearOfIssue) {
@@ -59,7 +71,7 @@ public class Book {
     public Book(long id,
                 int price,
                 List<Author> authorList,
-                String publisher,
+                Publisher publisher,
                 String name,
                 int numberOfPages,
                 LocalDate yearOfIssue) {
@@ -96,11 +108,11 @@ public class Book {
         this.authorList = authorList;
     }
 
-    public String getPublisher() {
+    public Publisher getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(String publisher) {
+    public void setPublisher( Publisher publisher) {
         this.publisher = publisher;
     }
 
@@ -126,5 +138,18 @@ public class Book {
 
     public void setYearOfIssue(LocalDate yearOfIssue) {
         this.yearOfIssue = yearOfIssue;
+    }
+
+    public BookDTO convertBookToDto() {
+        BookDTO bookDto = new BookDTO();
+        bookDto.setName(this.getName());
+        bookDto.setAuthorList(this.getAuthorList().stream().map(item->item.convertAuthorToDto(false)).toList());
+        bookDto.setId(this.getId());
+        bookDto.setPrice(this.getPrice());
+        bookDto.setPublisher(this.getPublisher().convertPublisherToDto(false));
+        bookDto.setNumberOfPages(this.getNumberOfPages());
+        bookDto.setYearOfIssue(this.getYearOfIssue());
+        bookDto.setGenreList(this.getBooksGenresList().stream().map(Genre::convertGenreToDto).toList());
+        return bookDto;
     }
 }
